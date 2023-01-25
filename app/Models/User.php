@@ -17,11 +17,20 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'password', 'token', 'preferredPosition'
     ];
+
+    public static function validate($request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+            'preferredPosition' => 'required'
+        ]);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
