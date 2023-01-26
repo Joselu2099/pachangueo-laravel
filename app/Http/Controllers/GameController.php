@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Game;
+use App\Models\Match;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -12,14 +12,14 @@ class GameController extends Controller
     {
         $viewData = [];
         $viewData["title"] = "Memes";
-        $viewData["games"] = Game::all();
+        $viewData["games"] = Match::all();
         return view('games.index')->with("viewData", $viewData);
     }
 
     public function show($id)
     {
         $viewData = [];
-        $game = Game::findOrFail($id);
+        $game = Match::findOrFail($id);
         $viewData["title"] = "Game";
         $viewData["game"] = $game;
         return view('games.show')->with("viewData", $viewData);
@@ -33,7 +33,7 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        Game::validate($request);
+        Match::validate($request);
 
         $input = $request->all();
 
@@ -52,7 +52,7 @@ class GameController extends Controller
             $input['imgejemplo'] = "$profileImage";
         }
 
-        Game::create($input);
+        Match::create($input);
 
         return redirect()->route('games.index')->with('success','Pachanga creada correctamente.');
     }

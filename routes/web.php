@@ -14,25 +14,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name("home.index");
-Route::get('/memes', 'App\Http\Controllers\MemeController@index')->name("games.index");
-Route::get('/memes/find', 'App\Http\Controllers\HomeController@find')->name("games.find");
-Route::get('/memes/{id}', 'App\Http\Controllers\MemeController@show')->name("meme.show");
+Route::get('/login', 'App\Http\Controllers\HomeController@login')->name("home.login");
+Route::get('/register', 'App\Http\Controllers\HomeController@register')->name("home.register");
+Route::get('/games', 'App\Http\Controllers\MemeController@index')->name("games.index");
+Route::get('/games/find', 'App\Http\Controllers\HomeController@find')->name("games.find");
+Route::get('/games/{id}', 'App\Http\Controllers\MemeController@show')->name("games.show");
 
 Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home.index");
-Route::get('/admin/memes', 'App\Http\Controllers\Admin\AdminMemeController@index')->name("admin.meme.index");
-Route::post('/admin/memes/store', 'App\Http\Controllers\Admin\AdminMemeController@store')->name("admin.meme.store");
-Route::delete('/admin/memes/{id}/delete', 'App\Http\Controllers\Admin\AdminMemeController@delete')->name("admin.meme.delete");
-Route::get('/admin/memes/{id}/edit', 'App\Http\Controllers\Admin\AdminMemeController@edit')->name("admin.meme.edit");
-Route::put('/admin/memes/{id}/update', 'App\Http\Controllers\Admin\AdminMemeController@update')->name("admin.meme.update");
+Route::get('/admin/games', 'App\Http\Controllers\Admin\AdminGameController@index')->name("admin.games.index");
+Route::post('/admin/games/store', 'App\Http\Controllers\Admin\AdminGameController@store')->name("admin.games.store");
+Route::delete('/admin/games/{id}/delete', 'App\Http\Controllers\Admin\AdminGameController@delete')->name("admin.games.delete");
+Route::get('/admin/games/{id}/edit', 'App\Http\Controllers\Admin\AdminGameController@edit')->name("admin.games.edit");
+Route::put('/admin/games/{id}/update', 'App\Http\Controllers\Admin\AdminGameController@update')->name("admin.games.update");
 
 /*
 Route::middleware('admin')->group(function () {
     Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home.index");
-    Route::get('/admin/memes', 'App\Http\Controllers\Admin\AdminMemeController@index')->name("admin.meme.index");
-    Route::post('/admin/memes/store', 'App\Http\Controllers\Admin\AdminMemeController@store')->name("admin.meme.store");
-    Route::delete('/admin/memes/{id}/delete', 'App\Http\Controllers\Admin\AdminMemeController@delete')->name("admin.meme.delete");
-    Route::get('/admin/memes/{id}/edit', 'App\Http\Controllers\Admin\AdminMemeController@edit')->name("admin.meme.edit");
-    Route::put('/admin/memes/{id}/update', 'App\Http\Controllers\Admin\AdminMemeController@update')->name("admin.meme.update");
+    Route::get('/admin/games', 'App\Http\Controllers\Admin\AdminGameController@index')->name("admin.game.index");
+    Route::post('/admin/games/store', 'App\Http\Controllers\Admin\AdminGameController@store')->name("admin.game.store");
+    Route::delete('/admin/games/{id}/delete', 'App\Http\Controllers\Admin\AdminGameController@delete')->name("admin.game.delete");
+    Route::get('/admin/games/{id}/edit', 'App\Http\Controllers\Admin\AdminGameController@edit')->name("admin.game.edit");
+    Route::put('/admin/games/{id}/update', 'App\Http\Controllers\Admin\AdminGameController@update')->name("admin.game.update");
 });
 */
 

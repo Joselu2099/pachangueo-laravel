@@ -5,31 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Game extends Model
+class GameMatch extends Model
 {
 
     /**
-     *  String location;
-     *  String description;
-     *  Map<Integer,GameMatch> games;
+     *  LocalDate date;
+     *  LocalTime startTime;
+     *  LocalTime endTime;
+     *  Team team1;
+     *  Team team2;
      */
 
     use HasFactory;
 
     protected $fillable = [
-        'location',
-        'description'
+        'date','startTime','endTime','team1_id','team2_id'
     ];
-
-    public function teams()
-    {
-        return $this->hasMany(Team::class);
-    }
 
     public static function validate($request)
     {
         $request->validate([
-            "location" => "required|max:255"
+            "date" => "required|max:255",
+            "startTime" => "",
+            "endTime" => "",
+            "team1_id" => "",
+            "team2_id" => ""
         ]);
     }
 
@@ -43,24 +43,24 @@ class Game extends Model
         $this->attributes['id'] = $id;
     }
 
-    public function getLocation()
+    public function getStartTime()
     {
-        return $this->attributes['location'];
+        return $this->attributes['startTime'];
     }
 
-    public function setLocation($location)
+    public function setStartTime($startTime)
     {
-        $this->attributes['location'] = $location;
+        $this->attributes['startTime'] = $startTime;
     }
 
-    public function getDescription()
+    public function getEndTime()
     {
-        return $this->attributes['description'];
+        return $this->attributes['endTime'];
     }
 
-    public function setDescription($description)
+    public function setEndTime($endTime)
     {
-        $this->attributes['description'] = $description;
+        $this->attributes['endTime'] = $endTime;
     }
 
     public function getCreatedAt()

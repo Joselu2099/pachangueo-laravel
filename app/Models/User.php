@@ -19,7 +19,7 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'name', 'email', 'password', 'token', 'preferredPosition'
+        'name', 'email', 'password', 'image', 'token', 'preferredPosition'
     ];
 
     public static function validate($request)
@@ -28,6 +28,7 @@ class User extends Authenticatable
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
+            'image' => 'image',
             'preferredPosition' => 'required'
         ]);
     }
