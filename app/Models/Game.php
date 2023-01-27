@@ -11,26 +11,31 @@ class Game extends Model
     /**
      *  String location;
      *  String description;
+     *  User creator;
      *  Map<Integer,GameMatch> games;
      */
 
-    use HasFactory;
-
     protected $fillable = [
-        'location',
-        'description'
+        'location', 'description', 'creator_id'
     ];
 
-    public function teams()
+    public function validate()
     {
-        return $this->hasMany(Team::class);
+        return request()->validate([
+            'location' => 'required|max:255',
+            'description' => 'nullable',
+            'creator' => 'required|exists:users,id',
+        ]);
     }
 
-    public static function validate($request)
+    public function creator()
     {
-        $request->validate([
-            "location" => "required|max:255"
-        ]);
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function matches()
+    {
+        return $this->hasMany(GameMatch::class);
     }
 
     public function getId()
@@ -83,3 +88,4 @@ class Game extends Model
         $this->attributes['updated_at'] = $updatedAt;
     }
 }
+

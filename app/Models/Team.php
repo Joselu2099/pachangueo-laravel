@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Team extends Model
 {
 
+    /**
+     *  String name
+     *  String color
+     *  String image
+     *  List<User> users
+     */
+
     use HasFactory;
 
     protected $fillable = [
@@ -17,11 +24,18 @@ class Team extends Model
     protected $attributes = [
         'image' => 'defaultShield.png'
     ];
-    public static function validate($request)
+
+    public function users()
     {
-        $request->validate([
-            "name" => "required|max:255",
-            "color" => "required"
+        return $this->belongsToMany(User::class);
+    }
+
+    public function validate()
+    {
+        return request()->validate([
+            'name' => 'required',
+            'color' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     }
 

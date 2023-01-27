@@ -19,17 +19,27 @@ class GameMatch extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date','startTime','endTime','team1_id','team2_id'
+        'date', 'startTime', 'endTime', 'team1_id', 'team2_id'
     ];
 
-    public static function validate($request)
+    public function team1()
     {
-        $request->validate([
-            "date" => "required|max:255",
-            "startTime" => "",
-            "endTime" => "",
-            "team1_id" => "",
-            "team2_id" => ""
+        return $this->belongsTo(Team::class, 'team1_id');
+    }
+
+    public function team2()
+    {
+        return $this->belongsTo(Team::class, 'team2_id');
+    }
+
+    public function validate()
+    {
+        return request()->validate([
+            'date' => 'required|date',
+            'startTime' => 'required',
+            'endTime' => 'required',
+            'team1_id' => 'required|exists:teams,id',
+            'team2_id' => 'required|exists:teams,id',
         ]);
     }
 

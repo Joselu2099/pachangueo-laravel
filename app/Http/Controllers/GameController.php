@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Match;
+use App\Models\Game;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $viewData = [];
-        $viewData["title"] = "Memes";
-        $viewData["games"] = Match::all();
-        return view('games.index')->with("viewData", $viewData);
+        $games = Game::all();
+        return view('games.index', compact('games'));
     }
 
-    public function show($id)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $viewData = [];
-        $game = Match::findOrFail($id);
-        $viewData["title"] = "Game";
-        $viewData["game"] = $game;
-        return view('games.show')->with("viewData", $viewData);
+        return view('games.create');
     }
 
     /**
@@ -33,27 +36,74 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        Match::validate($request);
+        $validatedData = $request->validate([
+            'location' => 'required|max:255',
+            'description' => 'nullable',
+            'creator' => 'required|exists:users,id',
+        ]);
 
-        $input = $request->all();
+        $game = new Game();
+        $game->location = $validatedData['location'];
+        $game->description = $validatedData['description'];
+        $game->creator_id = $validatedData['creator'];
+        $game->save();
 
-        if ($image = $request->file('imgplantilla')) {
-            $destinationPath = 'images/';
-            $profileImage = date('YmdHis') . "plantilla." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $input['imgplantilla'] = "$profileImage";
-        }
+        return redirect()->route('games.index')->with('success', 'Game created successfully!');
+    }
 
-        //if(has)
-        if ($image2 = $request->file('imgejemplo')) {
-            $destinationPath = 'images/';
-            $profileImage = date('YmdHis') . "ejemplo." . $image2->getClientOriginalExtension();
-            $image2->move($destinationPath, $profileImage);
-            $input['imgejemplo'] = "$profileImage";
-        }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $game = Game::find($id);
+        return view('games.show', compact('game'));
+    }
 
-        Match::create($input);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $game = Game::find($id);
+        return view('games.edit', compact('game'));
+    }
 
-        return redirect()->route('games.index')->with('success','Pachanga creada correctamente.');
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Game  $game
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $game = Game::find($id);
+
+        $validatedData = $request->validate([
+            'location' => 'required|max:255',
+            'description' => 'nullable',
+            'creator' => 'required|exists:users,id',
+        ]);
+
+        $game->location = $validatedData['location'];
+        $game->description = $validatedData['description'];
+        $game->creator_id = $validatedData['creator'];
+
+        $game->save();
+        return redirect()->route('games.index');
+    }
+
+    public function destroy($id)
+    {
+        $game = Game::find($id);
+        $game->delete();
+        return redirect()->route('games.index');
     }
 }
