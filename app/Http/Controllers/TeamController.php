@@ -48,6 +48,16 @@ class TeamController extends Controller
         $team->image = $validatedData['image'];
         $team->save();
 
+        if ($request->hasFile('image')) {
+            $imageName = $team->getId().".".$request->file('image')->extension();
+            Storage::disk('public')->put(
+                $imageName,
+                file_get_contents($request->file('image')->getRealPath())
+            );
+            $team->setImage($imageName);
+            $team->save();
+        }
+
         return redirect()->route('teams.index')->with('success', 'Team created successfully!');
     }
 

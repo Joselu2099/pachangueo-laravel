@@ -12,7 +12,7 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ route('home.index') }}">PACHANGUEO</a>
+        <a class="navbar-brand" href="{{ route('home.index') }}"><img src="{{ asset('/images/pachangueoLogo.png') }}"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,9 +32,7 @@
     </nav>
 </header>
 <main>
-    <div class="container">
-        @yield('content')
-    </div>
+    @yield('content')
 </main>
 <footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -54,6 +54,16 @@ class UserController extends Controller
         $user->image = $validatedData['image'];
         $user->save();
 
+        if ($request->hasFile('image')) {
+            $imageName = $user->getId().".".$request->file('image')->extension();
+            Storage::disk('public')->put(
+                $imageName,
+                file_get_contents($request->file('image')->getRealPath())
+            );
+            $user->setImage($imageName);
+            $user->save();
+        }
+
         return redirect()->route('users.index')->with('success', 'User created successfully!');
     }
 
@@ -108,7 +118,7 @@ class UserController extends Controller
         $user->preferredPosition = $validatedData['preferredPosition'];
         $user->image = $validatedData['image'];
         $user->save();
-        
+
         return redirect()->route('users.index');
     }
 

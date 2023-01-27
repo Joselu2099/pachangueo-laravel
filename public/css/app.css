@@ -1,0 +1,31 @@
+*{
+    /*font-family: "Adelle Sans Devanagari";*/
+    font-family: "Apple LiGothic";
+}
+
+.bg-dark{
+    background-color: #0162FD !important;
+}
+
+.navbar-brand{
+    margin-left: 2rem;
+}
+
+.navbar-brand img{
+    width: 15rem;
+    border-radius: 1rem;
+    border: 1px solid;
+}
+
+.navbar-brand, .nav-link {
+    text-shadow: 0 0 5px #000000, 0 0 10px #ffffff !important;
+    color: #ffffff !important;
+    font-size: larger;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+
