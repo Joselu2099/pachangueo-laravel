@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Game extends Model
 {
+
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      *  String location;
@@ -16,13 +20,15 @@ class Game extends Model
      */
 
     protected $fillable = [
-        'location', 'description', 'creator_id'
+        'location', 'date', 'sport', 'description', 'creator',
     ];
 
     public function validate()
     {
         return request()->validate([
             'location' => 'required|max:255',
+            'date' => 'required|date',
+            'sport' => 'required|in:Futbol Sala,Futbol 7,Baloncesto',
             'description' => 'nullable',
             'creator' => 'required|exists:users,id',
         ]);
@@ -30,12 +36,16 @@ class Game extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class, 'creator_id');
+        return $this->belongsTo(User::class, 'creator');
     }
 
     public function matches()
     {
         return $this->hasMany(GameMatch::class);
+    }
+
+    public function getMatches(){
+
     }
 
     public function getId()
@@ -56,6 +66,24 @@ class Game extends Model
     public function setLocation($location)
     {
         $this->attributes['location'] = $location;
+    }
+
+    public function getDate()
+    {
+        return $this->attributes['date'];
+    }
+
+    public function setDate($date)
+    {
+        $this->attributes['date'] = $date;
+    }
+
+    public function getSport(){
+        return $this->attributes['sport'];
+    }
+
+    public function setSport($sport){
+        $this->attributes['sport'] = $sport;
     }
 
     public function getDescription()

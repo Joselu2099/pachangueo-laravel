@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
-class DatabaseSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -20,6 +21,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $this->call(UserSeeder::class);
+        $user = new User();
+        $user->setName('Joselu');
+        $user->setEmail('joseluischezcarrasco@gmail.com');
+        $user->setPassword('1234');
+        $user->setImage('joselu.png');
+        $user->setPreferredPosition('MC');
+        $user->save();
+
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class GameMatch extends Model
 {
@@ -16,10 +18,10 @@ class GameMatch extends Model
      *  Team team2;
      */
 
-    use HasFactory;
+    use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
-        'date', 'startTime', 'endTime', 'team1_id', 'team2_id'
+        'startTime', 'endTime', 'team1_id', 'team2_id'
     ];
 
     public function team1()
@@ -35,7 +37,6 @@ class GameMatch extends Model
     public function validate()
     {
         return request()->validate([
-            'date' => 'required|date',
             'startTime' => 'required',
             'endTime' => 'required',
             'team1_id' => 'required|exists:teams,id',

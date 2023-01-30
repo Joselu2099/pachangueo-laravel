@@ -5,35 +5,24 @@
 @endsection
 @section('content')
     <div class="subheader">
-        <h1>Bienvenido a Memecultor</h1>
-        <p>Crea tus mejores memes y compártelos con tus amigos!</p>
+        <h1>Mis Pachangas</h1>
+        <a href="{{ route('games.crud.create') }}" class="btn btn-primary">Crear Pachanga</a>
     </div>
-    <div class="container">
-        <div id="carouselMemes" class="carousel slide carousel-dark" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-                <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-                @foreach($viewData["memes"] as $meme)
-                    <div class="carousel-item @if($loop->first) active @endif ">
-                        <img src="{{ asset('/images/'.$meme->getImgEjemplo()) }}" class="d-block w-100" alt="{{ $meme->getNombre() }}">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>{{ $meme->getNombre() }}</h5>
+    <div class="container games">
+        <div class="row">
+            @foreach($viewData["games"] as $game)
+                <div class="card game-card" style="width: 18rem;">
+                    <h5 class="card-header">{{ $game->getLocation() }}</h5>
+                    <div class="card-body">
+                        <h6 class="card-subtitle">Deporte: <span class="card-sport">{{ $game->getSport() }}</span></h6>
+                        <p class="card-text">{{ substr($game->getDescription(), 0, 100) }}</p>
+                        <div class="card-group-buttons">
+                            <a href="{{ route('games.crud.edit', $game->getId()) }}" class="btn btn-warning">Editar</a>
+                            <a href="{{ route('games.show', $game->getId()) }}" class="btn btn-primary">Ver más</a>
                         </div>
                     </div>
-                @endforeach
-            </div>
-            <a class="carousel-control-prev" href="#carouselMemes" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselMemes" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+                </div>
+            @endforeach
         </div>
-
     </div>
 @endsection

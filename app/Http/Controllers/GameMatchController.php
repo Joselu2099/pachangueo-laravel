@@ -37,7 +37,6 @@ class GameMatchController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'date' => 'required|date',
             'startTime' => 'required',
             'endTime' => 'required',
             'team1_id' => 'required|exists:teams,id',
@@ -91,7 +90,6 @@ class GameMatchController extends Controller
         $gameMatch = GameMatch::find($id);
 
         $validatedData = $request->validate([
-            'date' => 'required|date',
             'startTime' => 'required',
             'endTime' => 'required',
             'team1_id' => 'required|exists:teams,id',

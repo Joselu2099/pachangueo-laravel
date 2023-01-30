@@ -41,7 +41,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'token' => 'required',
-            'preferredPosition' => 'required',
+            'preferredPosition' => 'required|in:DC,MC,DF,PT',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -107,7 +107,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'token' => 'required',
-            'preferredPosition' => 'required',
+            'preferredPosition' => 'required|in:DC,MC,DF,PT',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
