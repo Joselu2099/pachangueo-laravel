@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('location');
             $table->date('date');
             $table->string('sport');
-            $table->text('description');
+            $table->text('description',150);
             $table->unsignedBigInteger('creator');
             $table->foreign('creator')->references('id')->on('users');
             $table->timestamps();

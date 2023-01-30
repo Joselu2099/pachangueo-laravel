@@ -29,7 +29,7 @@ class Game extends Model
             'location' => 'required|max:255',
             'date' => 'required|date',
             'sport' => 'required|in:Futbol Sala,Futbol 7,Baloncesto',
-            'description' => 'nullable',
+            'description' => 'nullable|max:150',
             'creator' => 'required|exists:users,id',
         ]);
     }

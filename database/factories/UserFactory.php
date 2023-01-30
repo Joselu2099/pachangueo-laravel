@@ -18,11 +18,11 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->name(),
+            'name' => fake()->firstName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => fake()->password(6),
-            'image' => fake()->imageUrl(),
-            'token' => fake()->windowsPlatformToken,
+            'image' => fake()->imageUrl(500, 500, 'users'),
+            'token' => fake()->sha256(),
             'preferredPosition' => fake()->randomElement(['DC', 'MC', 'DF', 'PT']),
         ];
     }

@@ -74,7 +74,17 @@ class GameMatch extends Model
         $this->attributes['endTime'] = $endTime;
     }
 
-    public function getCreatedAt()
+    public function getTeam1Id()
+    {
+        return $this->attributes['team1_id'];
+    }
+
+    public function getTeam2Id()
+    {
+        return $this->attributes['team2_id'];
+    }
+
+        public function getCreatedAt()
     {
         return $this->attributes['created_at'];
     }

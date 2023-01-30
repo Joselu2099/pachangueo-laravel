@@ -1,0 +1,79 @@
+.games{
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.row{
+    display: flex;
+    justify-content: center;
+}
+
+.game-card{
+    border: 2px solid #0162FD;
+    margin: 1rem;
+    border-radius: 1rem;
+}
+
+.game-card .card-header{
+    background-color: #0162FD;
+    color: white;
+    border-top-right-radius: 0.8rem;
+    border-top-left-radius: 0.8rem;
+}
+
+.game-card .card-body{
+    padding: 1rem;
+}
+
+.game-card .card-subtitle{
+    border: 2px solid black;
+    border-radius: 1rem;
+    background-color: lightsteelblue;
+    width: fit-content;
+    padding: 0.4rem;
+    margin: auto auto 0.4rem;
+}
+
+.game-card .card-sport{
+    color: darkblue;
+}
+
+.game-card .card-text{
+    min-height: 6rem;
+    text-align: center;
+}
+
+.game-card .card-group-buttons{
+    display: flex;
+    justify-content: center;
+}
+
+.game-card a{
+    display: flex;
+    margin: auto;
+    width: fit-content;
+    border: 1px solid black;
+}
+
+.game-card a:hover{
+    display: flex;
+    margin: auto;
+    width: fit-content;
+    background-color: #000000;
+}
+
+.game-card .btn-warning{
+    color: white;
+    background-color: #d94412;
+}
+
+.table th, .table td{
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table .btn-primary{
+    border-color: black;
+}

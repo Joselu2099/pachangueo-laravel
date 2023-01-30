@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $viewData['title'])
 @section('stylesheet')
-    <link href="{{ asset('/css/index.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/css/games.css') }}" rel="stylesheet" />
 @endsection
 @section('content')
     <div class="subheader">
@@ -15,7 +15,7 @@
                     <h5 class="card-header">{{ $game->getLocation() }}</h5>
                     <div class="card-body">
                         <h6 class="card-subtitle">Deporte: <span class="card-sport">{{ $game->getSport() }}</span></h6>
-                        <p class="card-text">{{ substr($game->getDescription(), 0, 100) }}</p>
+                        <p class="card-text">{{ substr($game->getDescription(), 0, 150) }}</p>
                         <div class="card-group-buttons">
                             <a href="{{ route('games.crud.edit', $game->getId()) }}" class="btn btn-warning">Editar</a>
                             <a href="{{ route('games.show', $game->getId()) }}" class="btn btn-primary">Ver más</a>

@@ -18,11 +18,11 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
-            'location' => fake()->address(),
+            'location' => fake()->streetAddress(),
             'date' => fake()->date(),
             'sport' => fake()->randomElement(['Futbol Sala', 'Futbol 7', 'Baloncesto']),
-            'description' => fake()->text(200),
-            'creator' => 1,
+            'description' => fake()->realText($maxNbChars = 150, $indexSize = 2),
+            'creator' => fake()->numberBetween(1,5),
         ];
     }
 }
