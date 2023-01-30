@@ -1,0 +1,17 @@
+.table th, .table td{
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table .btn{
+    border-color: black;
+}
+
+.table .actions{
+    display: flex;
+    justify-content: center;
+}
+
+.actions a, .actions form{
+    margin: 0.5rem;
+}

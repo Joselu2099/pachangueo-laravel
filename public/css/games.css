@@ -21,13 +21,14 @@
     color: white;
     border-top-right-radius: 0.8rem;
     border-top-left-radius: 0.8rem;
+    text-align: center;
 }
 
 .game-card .card-body{
     padding: 1rem;
 }
 
-.game-card .card-subtitle{
+.game-card .card-sport{
     border: 2px solid black;
     border-radius: 1rem;
     background-color: lightsteelblue;
@@ -36,12 +37,12 @@
     margin: auto auto 0.4rem;
 }
 
-.game-card .card-sport{
+.game-card .card-sport span{
     color: darkblue;
 }
 
 .game-card .card-text{
-    min-height: 6rem;
+    min-height: 4rem;
     text-align: center;
 }
 
@@ -69,11 +70,4 @@
     background-color: #d94412;
 }
 
-.table th, .table td{
-    vertical-align: middle;
-    text-align: center;
-}
 
-.table .btn-primary{
-    border-color: black;
-}
