@@ -24,10 +24,11 @@ class UserSeeder extends Seeder
         $user = new User();
         $user->setName('Joselu');
         $user->setEmail('joseluischezcarrasco@gmail.com');
+        $user->email_verified_at = now();
         $user->setPassword('1234');
         $user->setImage('joselu.png');
         $user->setPreferredPosition('MC');
+        $user->setRememberToken(Str::random(10));
         $user->save();
-
     }
 }

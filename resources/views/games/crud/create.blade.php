@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $viewData['title'])
 @section('stylesheet')
-    <link href="{{ asset('/css/crud.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/css/crud.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
     <div class="subheader">

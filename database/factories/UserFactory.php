@@ -20,10 +20,11 @@ class UserFactory extends Factory
         return [
             'name' => fake()->firstName(),
             'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
             'password' => fake()->password(6),
             'image' => fake()->imageUrl(500, 500, 'users'),
-            'token' => fake()->sha256(),
             'preferredPosition' => fake()->randomElement(['DC', 'MC', 'DF', 'PT']),
+            'remember_token' => Str::random(10),
         ];
     }
 

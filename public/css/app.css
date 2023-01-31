@@ -28,6 +28,23 @@
     justify-content: center;
 }
 
+.auth-section{
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: row;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.auth-section .login{
+    padding-left: 0;
+}
+
+.auth-section .register{
+    border-left-style: solid;
+}
+
 .subheader{
     text-align: center;
     margin-top: 1rem;

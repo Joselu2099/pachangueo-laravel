@@ -28,7 +28,7 @@ class User extends Authenticatable
 
 
     protected $fillable = [
-        'name', 'email', 'password', 'token', 'preferredPosition', 'image'
+        'name', 'email', 'password', 'preferredPosition', 'image'
     ];
 
     protected $hidden = [
@@ -55,7 +55,6 @@ class User extends Authenticatable
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
-            'token' => 'required',
             'preferredPosition' => 'required|in:DC,MC,DF,PT',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);

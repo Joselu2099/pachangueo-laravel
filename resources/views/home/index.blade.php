@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $viewData['title'])
 @section('stylesheet')
-    <link href="{{ asset('/css/index.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/css/index.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
     <div id="carouselInicio" class="carousel slide carousel-dark" data-ride="carousel">
@@ -43,7 +43,8 @@
 
         <div class="subheader">
             <h1>Bienvenido a Pachangueo</h1>
-            <p>Crea o unete a las mejores pachangas de la zona, crea nuevas amistades, ejercita tu cuerpo y tu mente!</p>
+            <p>Crea o unete a las mejores pachangas de la zona, crea nuevas amistades, ejercita tu cuerpo y tu
+                mente!</p>
         </div>
     </div>
 @endsection

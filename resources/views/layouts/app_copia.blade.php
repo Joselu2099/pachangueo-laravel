@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
-    @yield('stylesheet', "<link href='{{ asset('/css/index.css') }}' rel='stylesheet'/>")
+    @yield('stylesheet', '<link href="{{ asset("/css/index.css") }}" rel="stylesheet" />')
     <title>@yield('title', 'pachangueo')</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home.index') }}">Inicio</a>
                 </li>
@@ -28,23 +28,6 @@
                     <a class="nav-link" href="{{ route('games.find') }}">Buscar Pachanga</a>
                 </li>
             </ul>
-            <div class="auth-section">
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link login" href="{{ route('login') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link register" href="{{ route('register') }}">Register</a>
-                    </li>
-                @else
-                    <li class="nav-item">
-                        <form id="logout" action="{{ route('logout') }}" method="POST">
-                            <a role="button" class="nav-link active" onclick="document.getElementById('logout').submit();">Logout</a>
-                            @csrf
-                        </form>
-                    </li>
-                @endguest
-            </div>
         </div>
     </nav>
 </header>
