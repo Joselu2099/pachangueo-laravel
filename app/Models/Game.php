@@ -23,7 +23,7 @@ class Game extends Model
         'location', 'date', 'sport', 'description', 'creator',
     ];
 
-    public function validate()
+    public static function validate()
     {
         return request()->validate([
             'location' => 'required|max:255',
@@ -42,6 +42,17 @@ class Game extends Model
     public function matches()
     {
         return $this->hasMany(GameMatch::class);
+    }
+
+    public function players()
+    {
+        return $this->belongsToMany(User::class, 'players', 'game_id', 'user_id');
+    }
+
+    public function storeWithCreator()
+    {
+        $this->save();
+        $this->players()->attach(auth()->id());
     }
 
     public function getMatches(){
@@ -94,6 +105,16 @@ class Game extends Model
     public function setDescription($description)
     {
         $this->attributes['description'] = $description;
+    }
+
+    public function getCreator()
+    {
+        return $this->attributes['description'];
+    }
+
+    public function setCreator($creator)
+    {
+        $this->attributes['creator'] = $creator;
     }
 
     public function getCreatedAt()

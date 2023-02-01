@@ -19,9 +19,9 @@ return new class extends Migration
             $table->time('endTime');
             $table->unsignedBigInteger('game_id');
             $table->foreign('game_id')->references('id')->on('games');
-            $table->unsignedBigInteger('team1_id');
+            $table->unsignedBigInteger('team1_id')->nullable();
             $table->foreign('team1_id')->references('id')->on('teams');
-            $table->unsignedBigInteger('team2_id');
+            $table->unsignedBigInteger('team2_id')->nullable();
             $table->foreign('team2_id')->references('id')->on('teams');
             $table->timestamps();
         });

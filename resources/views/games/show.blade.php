@@ -34,7 +34,7 @@
                     <td class="actions">
                         <a href="{{ route('matches.crud.edit', $match->getId()) }}" class="btn btn-warning">Editar</a>
                         <a href="#" class="btn btn-danger"
-                           onclick="if(confirm('¿Esta seguro de que desea borrar este partido?')) { document.getElementById('delete-form-{{ $match->getId() }}').submit(); }">Delete</a>
+                           onclick="if(confirm('¿Esta seguro de que desea borrar este partido?')) { document.getElementById('delete-form-{{ $match->getId() }}').submit(); }">Borrar</a>
                         <form id="delete-form-{{ $match->getId() }}"
                               action="{{ route('matches.crud.delete', $match->getId()) }}" method="post"
                               style="display: none;">

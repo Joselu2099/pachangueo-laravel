@@ -2,67 +2,80 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\GameMatch;
+use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class GameMatchController extends Controller
 {
-    public function create()
-    {
-        return view('matches.crud.create');
-    }
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'startTime' => 'required',
-            'endTime' => 'required',
-            'team1_id' => 'required|exists:teams,id',
-            'team2_id' => 'required|exists:teams,id',
-        ]);
-
-        $gameMatch = new GameMatch();
-        $gameMatch->start_time = $validatedData['startTime'];
-        $gameMatch->end_time = $validatedData['endTime'];
-        $gameMatch->team1_id = $validatedData['team1_id'];
-        $gameMatch->team2_id = $validatedData['team2_id'];
-        $gameMatch->save();
-
-        return back(); // redirect()->route('matches.index')->with('success', 'GameMatch created successfully!');
-    }
     public function show($id)
     {
-        $gameMatch = GameMatch::find($id);
-        return view('matches.show', compact('gameMatch'));
+        $gameMatch = GameMatch::findOrFail($id);
+        $viewData = [];
+        $viewData["title"] = "Ver Partido";
+        $viewData["gameMatch"] = $gameMatch;
+        //$viewData["teams"] = GameMatch::all()->where('game_id', '=', $id);
+        return view('matches.show')->with("viewData", $viewData);
     }
-    public function edit($id)
+
+    public function create()
     {
-        $gameMatch = GameMatch::find($id);
-        return view('matches.crud.edit', compact('gameMatch'));
+        $viewData = [];
+        $viewData["title"] = "Crear Partido";
+        return view('matches.crud.create')->with("viewData", $viewData);
     }
-    public function update(Request $request, $id)
+
+    public function store(Request $request)
     {
-        $gameMatch = GameMatch::find($id);
+        GameMatch::validate($request);
 
-        $validatedData = $request->validate([
-            'startTime' => 'required',
-            'endTime' => 'required',
-            'team1_id' => 'required|exists:teams,id',
-            'team2_id' => 'required|exists:teams,id',
-        ]);
-
-        $gameMatch->start_time = $validatedData['startTime'];
-        $gameMatch->end_time = $validatedData['endTime'];
-        $gameMatch->team1_id = $validatedData['team1_id'];
-        $gameMatch->team2_id = $validatedData['team2_id'];
+        $gameMatch = new GameMatch();
+        $gameMatch->setStartTime($request->input('startTime'));
+        $gameMatch->setEndTime($request->input('endTime'));
+        //Crear teams vacíos
+        $team1 = new Team();
+        $team1->save();
+        $team2 = new Team();
+        $team2->save();
+        //Asignar sus ids
+        $gameMatch->setTeam1Id($team1->getId());
+        $gameMatch->setTeam2Id($team2->getId());
         $gameMatch->save();
 
-        return back(); //redirect()->route('games.show');
+        return back()->with('success', 'Partido creado correctamente!');
+    }
+
+    public function edit($id)
+    {
+        $gameMatch = GameMatch::findOrFail($id);
+        $viewData = [];
+        $viewData["title"] = "Mis Pachangas";
+        $viewData["gameMatch"] = $gameMatch;
+
+        return view('matches.crud.edit')->with("viewData", $viewData);
+    }
+
+    public function update(Request $request, $id)
+    {
+        GameMatch::validate($request);
+
+        $gameMatch = GameMatch::findOrFail($id);
+
+        $gameMatch->setStartTime($request->input('startTime'));
+        $gameMatch->setEndTime($request->input('endTime'));
+        $gameMatch->setTeam1($request->input('team1_id'));
+        $gameMatch->setTeam2($request->input('team2_id'));
+        $gameMatch->save();
+
+        return back();
     }
 
     public function delete($id)
     {
-        $gameMatch = GameMatch::find($id);
-        $gameMatch->delete();
-        return back(); // redirect()->route('gameMatches.index');
+        GameMatch::destroy($id);
+        return redirect()->route('matches.index');
     }
 }

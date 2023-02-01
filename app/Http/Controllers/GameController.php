@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
-use App\Models\GameMatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class GameController extends Controller
 {
@@ -15,9 +12,30 @@ class GameController extends Controller
     {
         $viewData = [];
         $viewData["title"] = "Mis Pachangas";
-        $viewData["games"] = Game::all();
+        $viewData['games'] = Game::whereHas('players', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->orWhere('creator', Auth::id())->get();
 
         return view('games.index')->with("viewData", $viewData);
+    }
+
+    public function find()
+    {
+        $viewData = [];
+        $viewData["title"] = "Pachangas";
+        $viewData["games"] = Game::all();
+
+        return view('games.find')->with("viewData", $viewData);
+    }
+
+    public function show($id)
+    {
+        $game = Game::findOrFail($id);
+        $viewData = [];
+        $viewData["title"] = "Ver Pachanga";
+        $viewData["matches"] = $game->matches;
+        //$viewData["matches"] = GameMatch::all()->where('game_id', '=', $id);
+        return view('games.show')->with("viewData", $viewData);
     }
 
     public function create()
@@ -29,37 +47,24 @@ class GameController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'location' => 'required|max:255',
-            'date' => 'required|date',
-            'sport' => 'required|in:Futbol Sala,Futbol 7,Baloncesto',
-            'description' => 'nullable',
-            'creator' => 'required|exists:users,id',
-        ]);
+        Game::validate($request);
 
         $game = new Game();
-        $game->location = $validatedData['location'];
-        $game->sport = $validatedData['sport'];
-        $game->description = $validatedData['description'];
-        $game->creator_id = Auth::id();
+        $game->setLocation($request->input('location'));
+        $game->setDate($request->input('date'));
+        $game->setSport($request->input('sport'));
+        $game->setDescription($request->input('description'));
+        $creator = $request->input('creator');
+        $game->setCreator($creator);
         $game->save();
+        $game->players()->attach(Auth::id());
 
-        return redirect()->route('games.index')->with('success', 'Game created successfully!');
-    }
-
-    public function show($id)
-    {
-        $game = Game::find($id);
-        $viewData = [];
-        $viewData["title"] = "Ver Pachanga";
-        $viewData["matches"] = $game->matches;
-        //$viewData["matches"] = GameMatch::all()->where('game_id', '=', $id);
-        return view('games.show')->with("viewData", $viewData);
+        return redirect()->route('games.index')->with('success', 'Pachanga creada correctamente!');
     }
 
     public function edit($id)
     {
-        $game = Game::find($id);
+        $game = Game::findOrFail($id);
         $viewData = [];
         $viewData["title"] = "Mis Pachangas";
         $viewData["game"] = $game;
@@ -69,28 +74,27 @@ class GameController extends Controller
 
     public function update(Request $request, $id)
     {
-        $game = Game::find($id);
+        Game::validate($request);
 
-        $validatedData = $request->validate([
-            'location' => 'required|max:255',
-            'date' => 'required|date',
-            'sport' => 'required|in:Futbol Sala,Futbol 7,Baloncesto',
-            'description' => 'nullable',
-            'creator' => 'required|exists:users,id',
-        ]);
+        $game = Game::findOrFail($id);
 
-        $game->location = $validatedData['location'];
-        $game->sport = $validatedData['sport'];
-        $game->description = $validatedData['description'];
-        $game->creator_id = $validatedData['creator'];
 
+        $game->setLocation($request->input('location'));
+        $game->setDate($request->input('date'));
+        $game->setSport($request->input('sport'));
+        $game->setDescription($request->input('description'));
+        $game->setCreator($request->input('creator'));
         $game->save();
+
         return redirect()->route('games.index');
     }
 
     public function delete($id)
     {
-        Game::destroy($id);
+        $game = Game::find($id);
+        $game->players()->detach();
+        $game->delete();
         return redirect()->route('games.index');
     }
+
 }

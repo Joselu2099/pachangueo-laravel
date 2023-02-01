@@ -46,10 +46,15 @@ class User extends Authenticatable
 
     public function teams()
     {
-        return $this->belongsToMany(Team::class);
+        return $this->belongsToMany(Team::class, 'players', 'user_id', 'team_id');
     }
 
-    public function validate()
+    public function games()
+    {
+        return $this->belongsToMany(Game::class, 'players', 'user_id', 'game_id');
+    }
+
+    public static function validate()
     {
         return request()->validate([
             'name' => 'required',

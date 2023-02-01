@@ -34,7 +34,12 @@ class GameMatch extends Model
         return $this->belongsTo(Team::class, 'team2_id');
     }
 
-    public function validate()
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
+    }
+
+    public static function validate()
     {
         return request()->validate([
             'startTime' => 'required',
@@ -79,12 +84,22 @@ class GameMatch extends Model
         return $this->attributes['team1_id'];
     }
 
+    public function setTeam1Id($team1_id)
+    {
+        $this->attributes['team1_id'] = $team1_id;
+    }
+
     public function getTeam2Id()
     {
         return $this->attributes['team2_id'];
     }
 
-        public function getCreatedAt()
+    public function setTeam2Id($team2_id)
+    {
+        $this->attributes['team2_id'] = $team2_id;
+    }
+
+    public function getCreatedAt()
     {
         return $this->attributes['created_at'];
     }

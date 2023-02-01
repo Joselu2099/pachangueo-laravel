@@ -29,10 +29,15 @@ class Team extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'players', 'team_id', 'user_id');
     }
 
-    public function validate()
+    public function games()
+    {
+        return $this->belongsToMany(Game::class, 'players', 'team_id', 'game_id');
+    }
+
+    public static function validate()
     {
         return request()->validate([
             'name' => 'required',

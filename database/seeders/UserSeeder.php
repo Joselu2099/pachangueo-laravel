@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -22,13 +23,11 @@ class UserSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $user = new User();
-        $user->setName('Joselu');
-        $user->setEmail('joseluischezcarrasco@gmail.com');
-        $user->email_verified_at = now();
-        $user->setPassword('1234');
-        $user->setImage('joselu.png');
+        $user->setName('Admin');
+        $user->setEmail('admin@gmail.com');
+        $user->setPassword(Hash::make("1234"));
+        $user->setImage('admin.png');
         $user->setPreferredPosition('MC');
-        $user->setRememberToken(Str::random(10));
         $user->save();
     }
 }
