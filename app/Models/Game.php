@@ -49,6 +49,11 @@ class Game extends Model
         return $this->belongsToMany(User::class, 'players', 'game_id', 'user_id');
     }
 
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'players', 'game_id', 'team_id');
+    }
+
     public function storeWithCreator()
     {
         $this->save();

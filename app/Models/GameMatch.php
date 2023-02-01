@@ -21,7 +21,7 @@ class GameMatch extends Model
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
-        'startTime', 'endTime', 'team1_id', 'team2_id'
+        'startTime', 'endTime', 'game_id', 'team1_id', 'team2_id'
     ];
 
     public function team1()
@@ -36,7 +36,7 @@ class GameMatch extends Model
 
     public function game()
     {
-        return $this->belongsTo(Game::class);
+        return $this->belongsTo(Game::class, 'game_id');
     }
 
     public static function validate()
@@ -44,6 +44,7 @@ class GameMatch extends Model
         return request()->validate([
             'startTime' => 'required',
             'endTime' => 'required',
+            'game_id' => 'required|exists:games,id',
             'team1_id' => 'required|exists:teams,id',
             'team2_id' => 'required|exists:teams,id',
         ]);
@@ -97,6 +98,16 @@ class GameMatch extends Model
     public function setTeam2Id($team2_id)
     {
         $this->attributes['team2_id'] = $team2_id;
+    }
+
+    public function getGameId()
+    {
+        return $this->attributes['game_id'];
+    }
+
+    public function setGameId($game_id)
+    {
+        $this->attributes['game_id'] = $game_id;
     }
 
     public function getCreatedAt()

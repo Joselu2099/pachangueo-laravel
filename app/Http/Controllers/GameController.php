@@ -34,6 +34,8 @@ class GameController extends Controller
         $viewData = [];
         $viewData["title"] = "Ver Pachanga";
         $viewData["matches"] = $game->matches;
+        $viewData["teams"] = $game->teams;
+        $viewData["game_id"] = $game->getId();
         //$viewData["matches"] = GameMatch::all()->where('game_id', '=', $id);
         return view('games.show')->with("viewData", $viewData);
     }

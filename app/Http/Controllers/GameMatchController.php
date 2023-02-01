@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Game;
 use App\Models\GameMatch;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -21,20 +22,26 @@ class GameMatchController extends Controller
         return view('matches.show')->with("viewData", $viewData);
     }
 
-    public function create()
+    public function create($idGame)
     {
         $viewData = [];
         $viewData["title"] = "Crear Partido";
+        $viewData["game_id"] = $idGame;
         return view('matches.crud.create')->with("viewData", $viewData);
     }
 
     public function store(Request $request)
     {
-        GameMatch::validate($request);
+        request()->validate([
+            'startTime' => 'required',
+            'endTime' => 'required',
+            'game_id' => 'required|exists:games,id',
+        ]);
 
         $gameMatch = new GameMatch();
         $gameMatch->setStartTime($request->input('startTime'));
         $gameMatch->setEndTime($request->input('endTime'));
+        $gameMatch->setGameId($request->input('game_id'));
         //Crear teams vacíos
         $team1 = new Team();
         $team1->save();
@@ -45,22 +52,29 @@ class GameMatchController extends Controller
         $gameMatch->setTeam2Id($team2->getId());
         $gameMatch->save();
 
-        return back()->with('success', 'Partido creado correctamente!');
+        return redirect()->route('games.show', $gameMatch->getGameId())->with('success', 'Pachanga creada correctamente!');
     }
 
     public function edit($id)
     {
         $gameMatch = GameMatch::findOrFail($id);
+        $game = Game::findOrFail($gameMatch->getGameId());
         $viewData = [];
         $viewData["title"] = "Mis Pachangas";
         $viewData["gameMatch"] = $gameMatch;
+        $viewData["teams"] = $game->teams;
 
         return view('matches.crud.edit')->with("viewData", $viewData);
     }
 
     public function update(Request $request, $id)
     {
-        GameMatch::validate($request);
+        request()->validate([
+            'startTime' => 'required',
+            'endTime' => 'required',
+            'team1_id' => 'required|exists:teams,id',
+            'team2_id' => 'required|exists:teams,id',
+        ]);
 
         $gameMatch = GameMatch::findOrFail($id);
 
@@ -70,12 +84,13 @@ class GameMatchController extends Controller
         $gameMatch->setTeam2($request->input('team2_id'));
         $gameMatch->save();
 
-        return back();
+        return redirect()->route('games.show', $gameMatch->getGameId())->with('success', 'Pachanga actualizada correctamente!');
     }
 
     public function delete($id)
     {
+        $gameId = GameMatch::findOrFail($id)->getGameId();
         GameMatch::destroy($id);
-        return redirect()->route('matches.index');
+        return redirect()->route('games.show', $gameId)->with('success', 'Pachanga eliminada correctamente!');
     }
 }

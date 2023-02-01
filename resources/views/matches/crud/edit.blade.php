@@ -37,7 +37,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Editar Pachanga</button>
-            <a href="{{ route('games.show') }}" class="btn btn-danger">Cancelar</a>
+            <a href="{{ route('games.show', $viewData["gameMatch"]->getGameId()) }}" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
 @endsection

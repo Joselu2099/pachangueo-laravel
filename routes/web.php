@@ -33,7 +33,7 @@ Route::delete('/games/crud/{id}/delete', 'App\Http\Controllers\GameController@de
 
 //MATCHES ROUTES
 Route::get('/matches/{id}', 'App\Http\Controllers\GameMatchController@show')->name("matches.show");
-Route::get('/matches/crud/create', 'App\Http\Controllers\GameMatchController@create')->name("matches.crud.create");
+Route::get('/matches/crud/{id}/create', 'App\Http\Controllers\GameMatchController@create')->name("matches.crud.create");
 Route::post('/matches/crud/store', 'App\Http\Controllers\GameMatchController@store')->name("matches.crud.store");
 Route::get('/matches/crud/{id}/edit', 'App\Http\Controllers\GameMatchController@edit')->name("matches.crud.edit");
 Route::put('/matches/crud/{id}/update', 'App\Http\Controllers\GameMatchController@update')->name("matches.crud.update");
@@ -41,6 +41,8 @@ Route::delete('/matches/crud/{id}/delete', 'App\Http\Controllers\GameMatchContro
 
 //TEAMS ROUTES
 Route::get('/teams/{id}', 'App\Http\Controllers\TeamController@show')->name("teams.show");
+Route::get('/teams/crud/{id}/create', 'App\Http\Controllers\TeamController@create')->name("teams.crud.create");
+Route::post('/teams/crud/store', 'App\Http\Controllers\TeamController@store')->name("teams.crud.store");
 Route::get('/teams/crud/{id}/edit', 'App\Http\Controllers\TeamController@edit')->name("teams.crud.edit");
 Route::put('/teams/crud/{id}/update', 'App\Http\Controllers\TeamController@update')->name("teams.crud.update");
 Route::delete('/teams/crud/{id}/delete', 'App\Http\Controllers\TeamController@delete')->name("teams.crud.delete");
