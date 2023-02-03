@@ -9,7 +9,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Team extends Model
 {
-
     /**
      *  String name
      *  String color
@@ -24,7 +23,7 @@ class Team extends Model
     ];
 
     protected $attributes = [
-        'image' => 'defaultShield.png'
+        'image' => 'shield.png'
     ];
 
     public function users()
@@ -42,7 +41,7 @@ class Team extends Model
         return request()->validate([
             'name' => 'required',
             'color' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp',
         ]);
     }
 
@@ -78,6 +77,9 @@ class Team extends Model
 
     public function getImage()
     {
+        if(is_null($this->attributes['image']) || !isset($this->attributes['image'])){
+            return "shield.png";
+        }
         return $this->attributes['image'];
     }
 

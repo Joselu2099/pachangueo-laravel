@@ -23,6 +23,7 @@
             <div class="form-group">
                 <label for="team1_id">Equipo 1</label>
                 <select class="form-control" name="team1_id" id="team1_id" required>
+                    <option value="" disabled selected>Selecciona el equipo 1</option>
                     @foreach($viewData["teams"] as $team)
                         <option value="{{ $team->getId() }}" {{ $viewData['gameMatch']->getTeam1Id() == $team->getId() ? 'selected' : '' }}>{{ $team->getName() }}</option>
                     @endforeach
@@ -31,13 +32,17 @@
             <div class="form-group">
                 <label for="team2_id">Equipo 2</label>
                 <select class="form-control" name="team2_id" id="team2_id" required>
+                    <option value="" disabled selected>Selecciona el equipo 2</option>
                     @foreach($viewData["teams"] as $team)
                         <option value="{{ $team->getId() }}" {{ $viewData['gameMatch']->getTeam2Id() == $team->getId() ? 'selected' : '' }}>{{ $team->getName() }}</option>
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Editar Pachanga</button>
+            <button type="submit" id="submit" class="btn btn-primary">Editar Pachanga</button>
             <a href="{{ route('games.show', $viewData["gameMatch"]->getGameId()) }}" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
+@endsection
+@section('script')
+    <script src="{{ asset('/js/teamsSelector.js') }}"></script>
 @endsection

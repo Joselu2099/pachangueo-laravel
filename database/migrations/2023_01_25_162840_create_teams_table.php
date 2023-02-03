@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('color')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->default('shield.png');
             $table->timestamps();
         });
     }

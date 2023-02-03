@@ -34,7 +34,8 @@ class GameController extends Controller
         $viewData = [];
         $viewData["title"] = "Ver Pachanga";
         $viewData["matches"] = $game->matches;
-        $viewData["teams"] = $game->teams;
+        $viewData["teams"] = $game->teams->unique('id');;
+        $viewData["game"] = $game;
         $viewData["game_id"] = $game->getId();
         //$viewData["matches"] = GameMatch::all()->where('game_id', '=', $id);
         return view('games.show')->with("viewData", $viewData);
@@ -59,7 +60,6 @@ class GameController extends Controller
         $creator = $request->input('creator');
         $game->setCreator($creator);
         $game->save();
-        $game->players()->attach(Auth::id());
 
         return redirect()->route('games.index')->with('success', 'Pachanga creada correctamente!');
     }

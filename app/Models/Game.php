@@ -114,7 +114,7 @@ class Game extends Model
 
     public function getCreator()
     {
-        return $this->attributes['description'];
+        return $this->attributes['creator'];
     }
 
     public function setCreator($creator)

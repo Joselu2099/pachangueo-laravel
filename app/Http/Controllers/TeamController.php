@@ -2,54 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
+use App\Models\GameMatch;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function show($id)
     {
-        $teams = Team::all();
-        return view('teams.index', compact('teams'));
+        $team = GameMatch::findOrFail($id);
+        $viewData = [];
+        $viewData["title"] = "Ver Partido";
+        $viewData["team"] = $team;
+        //$viewData["teams"] = GameMatch::all()->where('game_id', '=', $id);
+        return view('teams.show')->with("viewData", $viewData);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create($idGame)
     {
-        return view('teams.create');
+        $viewData = [];
+        $viewData["title"] = "Crear Partido";
+        $viewData["game_id"] = $idGame;
+        return view('teams.crud.create')->with("viewData", $viewData);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'color' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        Team::validate($request);
 
         $team = new Team();
-        $team->name = $validatedData['name'];
-        $team->color = $validatedData['color'];
-        $team->image = $validatedData['image'];
+        $team->setName($request->input('name'));
+        $team->setColor($request->input('color'));
+        $team->setImage($request->input('image'));
+        $gameId = $request->input('game_id');
         $team->save();
 
         if ($request->hasFile('image')) {
-            $imageName = $team->getId().".".$request->file('image')->extension();
+            $imageName = $team->getName()."_".$team->getId().".".$request->file('image')->extension();
             Storage::disk('public')->put(
                 $imageName,
                 file_get_contents($request->file('image')->getRealPath())
@@ -58,63 +50,58 @@ class TeamController extends Controller
             $team->save();
         }
 
-        return redirect()->route('teams.index')->with('success', 'Team created successfully!');
+        $team->save();
+        $team->games()->attach($gameId);
+
+        return redirect()->route('games.show', $gameId)->with('success', 'Pachanga creada correctamente!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $team = Team::find($id);
-        return view('teams.show', compact('team'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $team = Team::find($id);
-        return view('teams.edit', compact('team'));
+        $team = Team::findOrFail($id);
+        $viewData = [];
+        $viewData["title"] = "Mis Pachangas";
+        $viewData["team"] = $team;
+
+        return view('teams.crud.edit')->with("viewData", $viewData);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $team = Team::find($id);
+        Team::validate($request);
 
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'color' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $team = Team::findOrFail($id);
 
-        $team->name = $validatedData['name'];
-        $team->color = $validatedData['color'];
-        $team->image = $validatedData['image'];
+        $team->setStartTime($request->input('startTime'));
+        $team->setEndTime($request->input('endTime'));
+        $team->setTeam1($request->input('team1_id'));
+        $team->setTeam2($request->input('team2_id'));
+
+        if ($request->hasFile('image')) {
+            $imageName = $team->getName()."_".$team->getId().".".$request->file('image')->extension();
+            Storage::disk('public')->put(
+                $imageName,
+                file_get_contents($request->file('image')->getRealPath())
+            );
+            $team->setImage($imageName);
+        }
+
         $team->save();
 
-        $team->save();
-        return redirect()->route('teams.index');
+        return redirect()->back()->with('success', 'Pachanga creada correctamente!');
+        //return redirect()->route('games.show', $team->getGameId())->with('success', 'Pachanga actualizada correctamente!');
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $team = Team::find($id);
+        $gameMatches = GameMatch::where('team1_id', $id)->orWhere('team2_id', $id)->get();
+        foreach ($gameMatches as $gameMatch) {
+            $gameMatch->delete();
+        }
+        $team->games()->detach();
         $team->delete();
-        return redirect()->route('teams.index');
+        return redirect()->back()->with('success', 'Equipo eliminado correctamente!');
     }
+
 }

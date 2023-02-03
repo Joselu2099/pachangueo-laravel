@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -12,6 +15,37 @@ class UserController extends Controller
         $users = User::all();
         return view('users.index', compact('users'));
     }
+
+    public function join($teamId) {
+        $team = Team::findOrFail($teamId);
+        $gameId = DB::table('players')
+            ->where('team_id', $teamId)
+            ->whereNull('user_id')
+            ->value('game_id');
+
+        DB::table('players')->insert([
+            'team_id' => $teamId,
+            'game_id' => $gameId,
+            'user_id' => Auth::id()
+        ]);
+
+        return redirect()->route('games.show', $gameId);
+    }
+
+    public function exit($teamId) {
+        $gameId = DB::table('players')
+            ->where('team_id', $teamId)
+            ->where('user_id', Auth::id())
+            ->value('game_id');
+
+        DB::table('players')
+            ->where('team_id', $teamId)
+            ->where('user_id', Auth::id())
+            ->delete();
+
+        return redirect()->route('games.show', $gameId);
+    }
+
 
     public function create()
     {

@@ -47,6 +47,13 @@ Route::get('/teams/crud/{id}/edit', 'App\Http\Controllers\TeamController@edit')-
 Route::put('/teams/crud/{id}/update', 'App\Http\Controllers\TeamController@update')->name("teams.crud.update");
 Route::delete('/teams/crud/{id}/delete', 'App\Http\Controllers\TeamController@delete')->name("teams.crud.delete");
 
+
+//USER ROUTES
+Route::get('/users/{id}/join', 'App\Http\Controllers\UserController@join')->name("users.join");
+Route::get('/users/{id}/exit', 'App\Http\Controllers\UserController@exit')->name("users.exit");
+
+
+
 /*
 Route::get('/admin', 'App\Http\Controllers\Admin\AdminHomeController@index')->name("admin.home.index");
 Route::get('/admin/games', 'App\Http\Controllers\Admin\AdminGameController@index')->name("admin.games.index");

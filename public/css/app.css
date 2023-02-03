@@ -3,6 +3,10 @@
     font-family: "Apple LiGothic";
 }
 
+main{
+    overflow: auto;
+}
+
 .bg-dark{
     background-color: #0162FD !important;
 }
@@ -37,7 +41,7 @@
     list-style: none;
 }
 
-.auth-section .login{
+.auth-section .login, .auth-section .logout{
     padding-left: 0;
 }
 
@@ -66,4 +70,12 @@
 
 .subheader h4{
     color: #0162FD;
+}
+
+.back{
+    margin-top: 4rem;
+}
+
+.app-icon{
+    width: 2rem;
 }

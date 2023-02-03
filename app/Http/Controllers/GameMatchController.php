@@ -24,25 +24,26 @@ class GameMatchController extends Controller
 
     public function create($idGame)
     {
+        $game = Game::findOrFail($idGame);
         $viewData = [];
         $viewData["title"] = "Crear Partido";
-        $viewData["game_id"] = $idGame;
+        $viewData["game_id"] = $game->getId();
+        $viewData["teams"] = $game->teams;
+
         return view('matches.crud.create')->with("viewData", $viewData);
     }
 
     public function store(Request $request)
     {
-        request()->validate([
-            'startTime' => 'required',
-            'endTime' => 'required',
-            'game_id' => 'required|exists:games,id',
-        ]);
+        GameMatch::validate($request);
 
         $gameMatch = new GameMatch();
         $gameMatch->setStartTime($request->input('startTime'));
         $gameMatch->setEndTime($request->input('endTime'));
         $gameMatch->setGameId($request->input('game_id'));
-        //Crear teams vacíos
+        $gameMatch->setTeam1Id($request->input('team1_id'));
+        $gameMatch->setTeam2Id($request->input('team2_id'));
+        /*Crear teams vacíos
         $team1 = new Team();
         $team1->save();
         $team2 = new Team();
@@ -50,6 +51,7 @@ class GameMatchController extends Controller
         //Asignar sus ids
         $gameMatch->setTeam1Id($team1->getId());
         $gameMatch->setTeam2Id($team2->getId());
+        */
         $gameMatch->save();
 
         return redirect()->route('games.show', $gameMatch->getGameId())->with('success', 'Pachanga creada correctamente!');
