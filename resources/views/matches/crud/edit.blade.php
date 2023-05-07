@@ -9,6 +9,7 @@
     </div>
     <div class="container">
         <form action="{{ route('matches.crud.update', $viewData["gameMatch"]->getId()) }}" method="POST">
+            @method('PUT')
             @csrf
             <div class="form-group">
                 <label for="location">Hora de inicio</label>

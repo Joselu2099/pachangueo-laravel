@@ -36,7 +36,7 @@ class GameFactory extends Factory
                 'Quedamos en la parada de tranvía mas cercana al campo',
                 'Hay aparcamiento gratuito en los alrededores',
             ]),
-            'creator' => fake()->numberBetween(1,5),
+            'creator' => fake()->numberBetween(1,10),
         ];
     }
 }

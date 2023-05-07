@@ -28,7 +28,7 @@ class GameMatchController extends Controller
         $viewData = [];
         $viewData["title"] = "Crear Partido";
         $viewData["game_id"] = $game->getId();
-        $viewData["teams"] = $game->teams;
+        $viewData["teams"] = $game->teams->unique();
 
         return view('matches.crud.create')->with("viewData", $viewData);
     }
@@ -64,7 +64,7 @@ class GameMatchController extends Controller
         $viewData = [];
         $viewData["title"] = "Mis Pachangas";
         $viewData["gameMatch"] = $gameMatch;
-        $viewData["teams"] = $game->teams;
+        $viewData["teams"] = $game->teams->unique();
 
         return view('matches.crud.edit')->with("viewData", $viewData);
     }
@@ -82,8 +82,8 @@ class GameMatchController extends Controller
 
         $gameMatch->setStartTime($request->input('startTime'));
         $gameMatch->setEndTime($request->input('endTime'));
-        $gameMatch->setTeam1($request->input('team1_id'));
-        $gameMatch->setTeam2($request->input('team2_id'));
+        $gameMatch->setTeam1Id($request->input('team1_id'));
+        $gameMatch->setTeam2Id($request->input('team2_id'));
         $gameMatch->save();
 
         return redirect()->route('games.show', $gameMatch->getGameId())->with('success', 'Pachanga actualizada correctamente!');

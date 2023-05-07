@@ -24,6 +24,7 @@ Route::get('/register', 'App\Http\Controllers\HomeController@register')->name("h
 //GAMES ROUTES
 Route::get('/games', 'App\Http\Controllers\GameController@index')->name("games.index");
 Route::get('/games/find', 'App\Http\Controllers\GameController@find')->name("games.find");
+Route::get('/games/pagination', 'App\Http\Controllers\GameController@pagination')->name("games.pagination");
 Route::get('/games/{id}', 'App\Http\Controllers\GameController@show')->name("games.show");
 Route::get('/games/crud/create', 'App\Http\Controllers\GameController@create')->name("games.crud.create");
 Route::post('/games/crud/store', 'App\Http\Controllers\GameController@store')->name("games.crud.store");

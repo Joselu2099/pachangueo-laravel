@@ -72,10 +72,9 @@ class TeamController extends Controller
 
         $team = Team::findOrFail($id);
 
-        $team->setStartTime($request->input('startTime'));
-        $team->setEndTime($request->input('endTime'));
-        $team->setTeam1($request->input('team1_id'));
-        $team->setTeam2($request->input('team2_id'));
+        $team->setName($request->input('name'));
+        $team->setColor($request->input('color'));
+        $team->setImage($request->input('image'));
 
         if ($request->hasFile('image')) {
             $imageName = $team->getName()."_".$team->getId().".".$request->file('image')->extension();
@@ -87,9 +86,7 @@ class TeamController extends Controller
         }
 
         $team->save();
-
-        return redirect()->back()->with('success', 'Pachanga creada correctamente!');
-        //return redirect()->route('games.show', $team->getGameId())->with('success', 'Pachanga actualizada correctamente!');
+        return redirect()->route('games.index')->with('success', 'Pachanga actualizada correctamente!');
     }
 
     public function delete($id)

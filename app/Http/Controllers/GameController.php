@@ -23,9 +23,18 @@ class GameController extends Controller
     {
         $viewData = [];
         $viewData["title"] = "Pachangas";
-        $viewData["games"] = Game::all();
+        $viewData["games"] = Game::paginate(6);
 
         return view('games.find')->with("viewData", $viewData);
+    }
+
+    public function pagination()
+    {
+        $viewData = [];
+        $viewData["title"] = "Pachangas";
+        $viewData["games"] = Game::paginate(6);
+
+        return view('games.pagination')->with("viewData", $viewData);
     }
 
     public function show($id)

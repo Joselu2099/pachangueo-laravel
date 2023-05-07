@@ -21,14 +21,14 @@ class GameMatchFactory extends Factory
         do{
             $endTime = fake()->time();
         }while($endTime<=$startTime);
-        $team1_id = fake()->numberBetween(1,8);
+        $team1_id = fake()->numberBetween(1,40);
         do{
-            $team2_id = fake()->numberBetween(1,8);
+            $team2_id = fake()->numberBetween(1,40);
         }while($team2_id == $team1_id);
         return [
             'startTime' => $startTime,
             'endTime' => $endTime,
-            'game_id' => fake()->numberBetween(1,5),
+            'game_id' => fake()->numberBetween(1,20),
             'team1_id' => $team1_id,
             'team2_id' => $team2_id,
         ];
